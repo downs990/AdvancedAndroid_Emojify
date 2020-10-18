@@ -18,23 +18,26 @@ package com.example.android.emojify;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,7 +45,6 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     // TODO (1): Create a Java class called Emojifier
-        // TODO (2): Create a static method in the Emojifier class called detectFaces() which detects and logs the number of faces in a given bitmap.
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_STORAGE_PERMISSION = 1;
@@ -172,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Method for processing the captured image and setting it to the TextView.
      */
+    @SuppressLint("RestrictedApi")
     private void processAndSetImage() {
 
         // Toggle Visibility of the views
@@ -185,6 +188,9 @@ public class MainActivity extends AppCompatActivity {
         mResultsBitmap = BitmapUtils.resamplePic(this, mTempPhotoPath);
 
         // TODO (3): Call the new detectFaces() method, passing in the resampled bitmap to detect the faces in the picture.
+
+        Emojifier.detectFaces(getApplicationContext(), mResultsBitmap);
+
 
         // Set the new bitmap to the ImageView
         mImageView.setImageBitmap(mResultsBitmap);
@@ -225,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param view The clear button.
      */
+    @SuppressLint("RestrictedApi")
     public void clearImage(View view) {
         // Clear the image and toggle the view visibility
         mImageView.setImageResource(0);
